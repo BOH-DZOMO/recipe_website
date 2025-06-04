@@ -42,7 +42,6 @@ export const show = async (req,res)=>{
     const recipe_id = req.params.recipe_id;
     const query = "SELECT * FROM `recipes` WHERE recipe_id = ?"
     const values = [recipe_id]
-    console.log(values)
     
     try {
         const [result] = await db.execute(query,values)
