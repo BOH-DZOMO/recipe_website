@@ -9,7 +9,7 @@ export const create = async (req,res)=>{
     
     try {
 
-        const [row] = await db.execute(query,values)
+        await db.execute(query,values)
         console.log("insertion succesfull")
         res.json({message: "Insertion succesfull", status: 202})
     } catch (error) {
@@ -42,12 +42,10 @@ export const show = async (req,res)=>{
     const recipe_id = req.params.recipe_id;
     const query = "SELECT * FROM `recipes` WHERE recipe_id = ?"
     const values = [recipe_id]
-    
     try {
-        const [result] = await db.execute(query,values)
-        console.log("show succesfull")
-        const data = result.map(row => row)
-        res.status(202).json({data: data})
+        const [[result]] = await db.execute(query,values)
+        console.log(result)
+        res.status(202).json({data: result})
     } catch (error) {
         res.status(405).json({message: "operation  unsuccesfull", error: error})      
     }
@@ -61,10 +59,8 @@ export const destroy = async (req,res)=>{
     console.log(values)
     
     try {
-        const [result] = await db.execute(query,values)
-        console.log("delete succesfull")
-        const data = result.map(row => row)
-        res.json({message: "delete succesfull", status: 202, data: data})
+        await db.execute(query,values)
+        res.json({message: "delete succesfull", status: 202})
     } catch (error) {
         res.status(405).json({message: "operation  unsuccesfull", error: error})      
     }
@@ -80,8 +76,7 @@ export const searchBYIngredients = async (req,res)=>{
     try {
         const [result] = await db.execute(query,values)
         console.log("search complete")
-        const data = result.map(row => row)
-        res.json({message: "search complete", status: 202, data: data})
+        res.json({message: "search complete", status: 202, data: result})
     } catch (error) {
         res.status(405).json({message: "operation  unsuccesfull", error: error})      
     }
@@ -99,8 +94,7 @@ export const searchBYCuisine = async (req,res)=>{
     try {
         const [result] = await db.execute(query,values)
         console.log("search complete")
-        const data = result.map(row => row)
-        res.json({message: "search complete", status: 202, data: data})
+        res.json({message: "search complete", status: 202, data: result})
     } catch (error) {
         res.status(405).json({message: "operation  unsuccesfull", error: error})      
     }
@@ -113,7 +107,7 @@ export const addFavourite = async (req,res)=>{
     console.log(values)
     
     try {
-        const [result] = await db.execute(query,values)
+        await db.execute(query,values)
         console.log("show succesfull")
         res.status(202).json({message: "item added succesfully"})
     } catch (error) {
@@ -128,7 +122,7 @@ export const removeFavourite = async (req,res)=>{
     console.log(values)
     
     try {
-        const [result] = await db.execute(query,values)
+        await db.execute(query,values)
         console.log("show succesfull")
         res.status(202).json({message: "item removed succesfully"})
     } catch (error) {
