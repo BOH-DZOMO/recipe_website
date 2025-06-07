@@ -1,5 +1,6 @@
 import express from "express"
 import { addFavourite, create, destroy, removeFavourite, searchBYCuisine, searchBYIngredients, show, update } from "../controller/RecipeController.js"
+import authenticate from "../middleware/auth.js"
 const RecipeRouter = express.Router()
 
 RecipeRouter.post("/recipes/create",create)
